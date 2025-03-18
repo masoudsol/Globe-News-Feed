@@ -41,4 +41,8 @@ class StoryViewModel: ObservableObject {
         }
         return ""
     }
+        
+    func protectionProduct(protectionProduct: String?) -> String {
+        return protectionProduct == "red" ? "❌" : ""
+    }
 }

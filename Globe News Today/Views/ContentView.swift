@@ -13,7 +13,9 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List(viewModel.stories) { story in
-                StoryRow(story: story, formattedByline: viewModel.formattedAuthors(authores: story.byline))
+                StoryRow(story: story,
+                         formattedByline: viewModel.formattedAuthors(authores: story.byline),
+                         productRed: viewModel.protectionProduct(protectionProduct: story.protection_product))
             }
             .navigationTitle("Trending Stories")
             .onAppear {
@@ -26,13 +28,14 @@ struct ContentView: View {
 struct StoryRow: View {
     let story: Story
     let formattedByline: String
+    let productRed: String
     
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 5) {
                 Text(story.title)
                     .font(.headline)
-                + Text(story.protection_product == "red" ? "❌" : "")
+                + Text(productRed)
                 
                 Text(formattedByline)
                     .font(.subheadline)
