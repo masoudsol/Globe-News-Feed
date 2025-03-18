@@ -19,11 +19,27 @@ class StoryViewModel: ObservableObject {
             do {
                 let decodedStories = try JSONDecoder().decode(NewsFeed.self, from: data)
                 DispatchQueue.main.async {
+                    decodedStories.recommendations
                     self.stories = decodedStories.recommendations
                 }
             } catch {
                 print("Error decoding JSON: \(error)")
             }
         }.resume()
+    }
+    
+    func formattedAuthors(authores: [String]?) -> String {
+        if let byline = authores, !byline.isEmpty {
+            var result = byline.dropLast().joined(separator: ", ")
+            if let lastElement = byline.last {
+                if !result.isEmpty {
+                    result += " and \(lastElement)"
+                } else {
+                    result = lastElement
+                }
+            }
+            return result
+        }
+        return ""
     }
 }

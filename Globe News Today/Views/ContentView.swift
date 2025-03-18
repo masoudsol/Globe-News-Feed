@@ -13,7 +13,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List(viewModel.stories) { story in
-                StoryRow(story: story)
+                StoryRow(story: story, formattedByline: viewModel.formattedAuthors(authores: story.byline))
             }
             .navigationTitle("Trending Stories")
             .onAppear {
@@ -25,29 +25,17 @@ struct ContentView: View {
 
 struct StoryRow: View {
     let story: Story
-    var formattedByline: String {
-        if let byline = story.byline, !byline.isEmpty {
-            var result = byline.dropLast().joined(separator: ", ")
-            if let lastElement = byline.last {
-                if !result.isEmpty {
-                    result += " and \(lastElement)"
-                } else {
-                    result = lastElement
-                }
-            }
-            return result
-        }
-        return ""
-    }
+    let formattedByline: String
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 5) {
                 Text(story.title)
                     .font(.headline)
-                + Text("❌")
+                + Text(story.protection_product == "red" ? "❌" : "")
+                
                 Text(formattedByline)
                     .font(.subheadline)
-                
             }
             Spacer()
             if let imageUrl = story.promo_image?.urls.url650,
