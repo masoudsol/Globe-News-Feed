@@ -19,7 +19,6 @@ class StoryViewModel: ObservableObject {
             do {
                 let decodedStories = try JSONDecoder().decode(NewsFeed.self, from: data)
                 DispatchQueue.main.async {
-                    decodedStories.recommendations
                     self.stories = decodedStories.recommendations
                 }
             } catch {
